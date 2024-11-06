@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Downbad Sexy?</title>
+</head>
+<style>
+#container {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding 0px;
+	z-index: 10000;
+	background: black;
+}
+  
+#blocker {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding 0px;
+	z-index: 99999;
+}
+
+#fakeEndRickRollPrompt {
+	position: absolute;
+	top: 15px;
+	left: 42vw;
+	z-index: 100000;
+	border: 3px solid white;
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	clear: both;
+	background: white;
+}
+
+#hopeYouHadFun {
+	position: absolute;
+	top: 44vh;
+	left: 42vw;
+	z-index: 10001;
+	border: 3px solid black;
+	border-radius: 10px;
+	padding: 25px;
+	text-align: center;
+	font-weight: bold;
+	clear: both;
+	background: white;
+}
+</style>
+<body>
+    <!-- Main Container -->
+    <div id="container" {width: 100%; height: 100%;}>
+	
+		<!-- YouTube Embed -->
+		<div id="player"></div>
+	  
+		<!-- YouTube Embed -->
+		<div id="blocker"></div>
+		
+		<!-- Fake "End" Popup -->
+		<div id="fakeEndRickRollPrompt" style="display: none;">
+		<p>Would you like to end the Rick Roll Now?</p>
+		<button id="fakeEndRickRollButton">End Rick Roll</button>
+		<button id="fakeKeepRickRollButton">Keep Ricking and Rolling Me Brother</button>
+		</div>
+		
+		<div id="hopeYouHadFun" style="display: none;">
+			<p>Hope you had a fun time being Rick Rolled!</p>
+			<p>And just remember 9+10=21!</p>
+			<button onclick="location.href='https://sweaty.cc'" type="button">Sweaty Gamers Discord Server</button>
+			<button onclick="location.href='https://github.com/TheCodingCarson/RickRoll'" type="button">See the source code on Github</button>
+		</div>
+	
+	</div>
+    
+
+    <script>
+		// Ending var
+		var ended = false;
+	
+		// Loads the IFrame Player API
+		var tag = document.createElement('script');
+
+		tag.src = "https://www.youtube.com/iframe_api";
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+		// Creates an iframe
+		var player;
+		function onYouTubeIframeAPIReady() {
+			player = new YT.Player('player', {
+				height: '100%',
+				width: '100%',
+				videoId: 'xm3YgoEiEDc',
+				playerVars: {
+					'playsinline': 1,
+					'autoplay': 1,
+					'loop': 1,
+					'controls': 0,
+					'frameborder': 0,
+					'disablekb': 1,
+					'enablejsapi': 1,
+					'iv_load_policy': 3,
+					'rel': 0,
+				},
+				events: {
+					'onReady': onPlayerReady,
+					'onStateChange': onPlayerStateChange,
+					'onAutoplayBlocked': onAutoplayBlocked
+				}
+			});
+		}
+
+		// Start the Rick Roll
+		function onPlayerReady(event) {
+			event.target.setVolume(100);
+			event.target.playVideo();
+		}
+
+		// KEEP the Rick Roll
+		function onPlayerStateChange(event) {
+			if (event.data == !YT.PlayerState.PLAYING && !YT.PlayerState.CUED) {
+				event.target.playVideo();
+			}
+		}
+
+		// Fix Autoplay Blocked
+		function onAutoplayBlocked(event) {
+			event.target.playVideo();
+		}
+
+		// Set the block overlay
+		const blockerElem = document.querySelector('#blocker');
+
+		// On Click Go Into Fullscreen - Blocker
+		blockerElem.addEventListener("click", function(event) {
+			event.preventDefault();
+			enableFullScreen();
+		});
+		
+		// On Click Go Into Fullscreen - Fake Prompt
+		document.getElementById('fakeEndRickRollPrompt').addEventListener("click", function(event) {
+			event.preventDefault();
+			enableFullScreen();
+		});
+		
+		// Enable fullscreen if any key other then "R" is pressed - Blocker
+		document.addEventListener('keydown', function(event) {
+			
+			// Check to make sure still ricking the roll
+			if (!ended) {
+				// Prevent the default action for all key presses
+				event.preventDefault();
+			
+				if (event.key === 'R' || event.key === 'r') {
+					// End Rick Roll when "R" is pressed
+					endRickRoll()
+				} else {
+					// If any other key is pressed open Fullscreen
+					enableFullScreen();
+				}
+			}
+		});
+		
+		// Enable fullscreen if any key other then "R" is pressed - Fake Prompt
+		document.getElementById('fakeEndRickRollPrompt').addEventListener('keydown', function(event) {
+			// Prevent the default action for all key presses
+			event.preventDefault();
+		
+			if (event.key === 'R' || event.key === 'r') {
+				// End Rick Roll when "R" is pressed
+				endRickRoll()
+			} else {
+				// If any other key is pressed open Fullscreen
+				enableFullScreen();
+			}
+		});
+		
+		// Prevent the context menu from appearing on right-click anywhere in the document
+		document.addEventListener('contextmenu', function(event) {
+			event.preventDefault();
+		});
+		
+		// Extra prevention of the context menu - Blocker
+		blockerElem.addEventListener('contextmenu', function(event) {
+			event.preventDefault();
+		});
+		
+		// Extra prevention of the context menu - Fake Popup
+		document.getElementById('fakeEndRickRollPrompt').addEventListener('contextmenu', function(event) {
+			event.preventDefault();
+		});
+
+		// Function to enable fullscreen
+		function enableFullScreen() {
+			if (blockerElem.requestFullscreen) {
+				blockerElem.requestFullscreen();
+			} else if (blockerElem.mozRequestFullScreen) { // Firefox
+				blockerElem.mozRequestFullScreen();
+			} else if (blockerElem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+				blockerElem.webkitRequestFullscreen();
+			} else if (blockerElem.msRequestFullscreen) { // IE/Edge
+				blockerElem.msRequestFullscreen();
+			}
+		}
+		
+		// Function to exit fullscreen
+		function exitFullScreen() {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+				document.webkitExitFullscreen();
+			} else if (document.mozCancelFullScreen) { // Firefox
+				document.mozCancelFullScreen();
+			} else if (document.msExitFullscreen) { // IE/Edge
+				document.msExitFullscreen();
+			}
+		}
+		
+		// Adding listener to monitor full-screen changes
+		document.addEventListener('fullscreenchange', function() {
+			if (!document.fullscreenElement) {
+				// Show a fake "End Rick Roll Prompt"
+				document.getElementById('fakeEndRickRollPrompt').style.display = 'block';
+			}
+		});
+		
+		// Re-enter full screen when the user clicks the "End Rick Roll" button
+		document.getElementById('fakeEndRickRollButton').addEventListener('click', function() {
+			// Enable full-screen mode when the button is clicked
+			enableFullScreen();
+
+			// Hide the prompt after re-entering full-screen
+			document.getElementById('fakeEndRickRollPrompt').style.display = 'none';
+		});
+		
+		// Re-enter full screen when the user clicks the "Keep Rick Roll" button
+		document.getElementById('fakeKeepRickRollButton').addEventListener('click', function() {
+			// Enable full-screen mode when the button is clicked
+			enableFullScreen();
+
+			// Hide the prompt after re-entering full-screen
+			document.getElementById('fakeEndRickRollPrompt').style.display = 'none';
+		});
+		
+		// -- Actually End Rick Roll --
+		function endRickRoll() {
+			
+			// Set Ended variable
+			ended = true;
+			
+			// Exit Fullscreen
+			exitFullScreen();
+		
+			// Remove Block & Popup & Ending
+			document.getElementById('blocker').style.display = 'none';
+			document.getElementById('player').style.display = 'none';
+			document.getElementById('fakeEndRickRollPrompt').style.display = 'none';
+			
+			// Set background to white
+			document.getElementById('container').style.background = 'white';
+			
+			// Show Ending text
+			document.getElementById('hopeYouHadFun').style.display = 'block';
+		}
+	</script>
+</body>
+</html>
