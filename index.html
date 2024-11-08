@@ -126,6 +126,7 @@
 
 		// Start the Rick Roll
 		function onPlayerReady(event) {
+			event.target.playVideo();            // Play Video
 			// Autoplay Start - Bypass Autoplay Restrictions
 			event.target.unMute();               // Unmute Video
 			event.target.setVolume(100);         // Set Volume to 100%
