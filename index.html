@@ -173,6 +173,7 @@
     <script>
 		// -- Global Variables --
 		var player;                                                       // YouTube Player
+		var started = false;                                              // Rick Roll Started
 		var ended = false;                                                // Rick Roll Ended
 		const container = document.getElementById('container');           // Main Container
 		const playerDiv = document.getElementById('player');              // YouTube Player Div
@@ -230,6 +231,7 @@
 		
 			// Event handler for Enter (18 or older)
 			enterButton.addEventListener('click', function() {
+				started = false;                       // Set Rick Roll Started
 				initialOverlay.style.display = 'none'; // Hide overlay
 				player.playVideo();                    // Play Video
 				document.title = "Get Rick Rolled!";   // Change Website Title
@@ -238,6 +240,7 @@
 		
 			// Event handler for Exit (under 18)
 			exitButton.addEventListener('click', function() {
+				started = false;                       // Set Rick Roll Started
 				initialOverlay.style.display = 'none'; // Hide overlay
 				player.playVideo();                    // Play Video
 				document.title = "Get Rick Rolled!";   // Change Website Title
@@ -255,6 +258,24 @@
 		popup.addEventListener("click", function(event) {
 			event.preventDefault();
 			enableFullScreen();
+		});
+
+	    	// Enable fullscreen if any key other then "R" is pressed - Document
+		document.addEventListener('keydown', function(event) {
+			
+			// Check to make sure still ricking the roll
+			if (!ended && started) {
+				// Prevent the default action for all key presses
+				event.preventDefault();
+			
+				if (event.key === 'R' || event.key === 'r') {
+					// End Rick Roll when "R" is pressed
+					endRickRoll()
+				} else {
+					// If any other key is pressed open Fullscreen
+					enableFullScreen();
+				}
+			}
 		});
 		
 		// Enable fullscreen if any key other then "R" is pressed - Blocker
@@ -277,21 +298,63 @@
 		
 		// Enable fullscreen if any key other then "R" is pressed - Fake Prompt
 		popup.addEventListener('keydown', function(event) {
-			// Prevent the default action for all key presses
-			event.preventDefault();
-		
-			if (event.key === 'R' || event.key === 'r') {
-				// End Rick Roll when "R" is pressed
-				endRickRoll()
-			} else {
-				// If any other key is pressed open Fullscreen
-				enableFullScreen();
+			// Check to make sure still ricking the roll
+			if (!ended) {
+				// Prevent the default action for all key presses
+				event.preventDefault();
+			
+				if (event.key === 'R' || event.key === 'r') {
+					// End Rick Roll when "R" is pressed
+					endRickRoll()
+				} else {
+					// If any other key is pressed open Fullscreen
+					enableFullScreen();
+				}
+			}
+		});
+
+		// Enable fullscreen if any key other then "R" is pressed - Container
+		container.addEventListener('keydown', function(event) {
+			// Check to make sure still ricking the roll
+			if (!ended) {
+				// Prevent the default action for all key presses
+				event.preventDefault();
+			
+				if (event.key === 'R' || event.key === 'r') {
+					// End Rick Roll when "R" is pressed
+					endRickRoll()
+				} else {
+					// If any other key is pressed open Fullscreen
+					enableFullScreen();
+				}
+			}
+		});
+
+		// Enable fullscreen if any key other then "R" is pressed - Player Div
+		playerDiv.addEventListener('keydown', function(event) {
+			// Check to make sure still ricking the roll
+			if (!ended) {
+				// Prevent the default action for all key presses
+				event.preventDefault();
+			
+				if (event.key === 'R' || event.key === 'r') {
+					// End Rick Roll when "R" is pressed
+					endRickRoll()
+				} else {
+					// If any other key is pressed open Fullscreen
+					enableFullScreen();
+				}
 			}
 		});
 
 		
 		// Prevent the context menu from appearing on right-click anywhere in the document
 		document.addEventListener('contextmenu', function(event) {
+			event.preventDefault();
+		});
+
+		// Extra prevention of the context menu - Container
+		container.addEventListener('contextmenu', function(event) {
 			event.preventDefault();
 		});
 		
