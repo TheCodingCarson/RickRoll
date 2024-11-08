@@ -218,7 +218,7 @@
 			// Event handler for Enter (18 or older)
 			enterButton.addEventListener('click', function() {
 				initialOverlay.style.display = 'none'; // Hide overlay
-				event.target.playVideo();              // Play Video
+				player.playVideo();                    // Play Video
 				document.title = "Get Rick Rolled!";   // Change Website Title
 				enableFullScreen();                    // Start in fullscreen
 		    	});
@@ -226,7 +226,7 @@
 			// Event handler for Exit (under 18)
 			exitButton.addEventListener('click', function() {
 				initialOverlay.style.display = 'none'; // Hide overlay
-				event.target.playVideo();              // Play Video
+				player.playVideo();                    // Play Video
 				document.title = "Get Rick Rolled!";   // Change Website Title
 				enableFullScreen();                    // Start in fullscreen
 			});
