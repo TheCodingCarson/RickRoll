@@ -166,9 +166,6 @@
                 		<button id="exitButton">I am under 18 - Exit</button>
 			</div>
 		</div>
-
-		<!-- Fullscreen Gif -->
-		<img id="gif" src="https://raw.githubusercontent.com/TheCodingCarson/RickRoll/refs/heads/main/images/the-rickler.gif">
 	    
 	</div>
     
@@ -177,6 +174,7 @@
 		// -- Global Variables --
 		var player;                                                       // YouTube Player
 		var ended = false;                                                // Rick Roll Ended
+		const container = document.getElementById('container');           // Main Container
 		const playerDiv = document.getElementById('player');              // YouTube Player Div
 		const blocker = document.getElementById('blocker');               // Blocker Overlay
 		const popup = document.getElementById('fakeEndRickRollPrompt');   // Popup Prompt
@@ -310,14 +308,14 @@
 
 		// Function to enable fullscreen
 		function enableFullScreen() {
-			if (blocker.requestFullscreen) {
-				blocker.requestFullscreen();
-			} else if (blocker.mozRequestFullScreen) { // Firefox
-				blocker.mozRequestFullScreen();
-			} else if (blocker.webkitRequestFullscreen) { // Chrome, Safari and Opera
-				blocker.webkitRequestFullscreen();
-			} else if (gif.msRequestFullscreen) { // IE/Edge
-				blocker.msRequestFullscreen();
+			if (container.requestFullscreen) {
+				container.requestFullscreen();
+			} else if (container.mozRequestFullScreen) { // Firefox
+				container.mozRequestFullScreen();
+			} else if (container.webkitRequestFullscreen) { // Chrome, Safari and Opera
+				container.webkitRequestFullscreen();
+			} else if (container.msRequestFullscreen) { // IE/Edge
+				container.msRequestFullscreen();
 			}
 
 			gif.style.display = 'fixed'; // Remove Prompt
