@@ -55,6 +55,72 @@
 	clear: both;
 	background: white;
 }
+
+#initialOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000000;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#initialOverlay img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+#initialOverlayButtons {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+}
+
+#enterButton {
+    background-color: #FF0000;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#enterButton:hover {
+    background-color: #cc0000;
+}
+
+#exitButton {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#exitButton:hover {
+    background-color: white;
+    color: #000000;
+}
 </style>
 <body>
     <!-- Main Container -->
@@ -79,7 +145,16 @@
 			<button onclick="location.href='https://sweaty.cc'" type="button">Sweaty Gamers Discord Server</button>
 			<button onclick="location.href='https://github.com/TheCodingCarson/RickRoll'" type="button">See the source code on Github</button>
 		</div>
-	
+
+	    <!-- Initial Overlay (Fake 18+ Consent Page) -->
+		<div id="initialOverlay">
+			<img src="https://raw.githubusercontent.com/TheCodingCarson/RickRoll/refs/heads/main/images/landing.png" alt="Landing Image">
+			<div id="initialOverlayButtons">
+                		<button id="enterButton">I am 18 or older - Enter</button>
+                		<button id="exitButton">I am under 18 - Exit</button>
+			</div>
+		</div>
+	    
 	</div>
     
 
@@ -104,16 +179,16 @@
 				width: '100%',
 				videoId: 'xm3YgoEiEDc', // 10-Hour Rickroll video ;)
 				playerVars: {
-					'playsinline': 1, // Ensuring fullscreen doesn't block overlay
-					'autoplay': 1,    // Auto play video on load
-					'mute': 1,        // Start Muted (Allows Autoplay without browser Restriction)
-					'loop': 1,        // Loop Video (Why is the user here for 10 hours?)
-					'controls': 0,    // Remove the Player Controls
-					'frameborder': 0, // 
-					'disablekb': 1,
-					'enablejsapi': 1,
-					'iv_load_policy': 3,
-					'rel': 0,
+					'playsinline': 1,    // Ensuring fullscreen doesn't block overlay
+					'autoplay': 0,       // Don't Auto play video on load
+					'mute': 1,           // Start Muted
+					'loop': 1,           // Loop Video (Why is the user here for 10 hours?)
+					'controls': 0,       // Remove the Player Controls
+					'frameborder': 0,    // Remove Border Frame
+					'disablekb': 1,      // Disable Keyboard Controls
+					'enablejsapi': 1,    // Enable JS Api
+					'iv_load_policy': 3, // Hide Annotations
+					'rel': 0,            // Don't show related videos
 					'referrerpolicy': "strict-origin-when-cross-origin",
 					'origin': "downbad.sweaty.cc",
 					'allow': "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -124,13 +199,36 @@
 			});
 		}
 
-		// Start the Rick Roll
+		// Set Player Settings + Show Consent Buttons
 		function onPlayerReady(event) {
-			event.target.playVideo();            // Play Video
-			// Autoplay Start - Bypass Autoplay Restrictions
-			event.target.unMute();               // Unmute Video
-			event.target.setVolume(100);         // Set Volume to 100%
-			document.title = "Get Rick Rolled!"; // Change Website Title
+			event.target.unMute();                 // Unmute Video
+			event.target.setVolume(100);           // Set Volume to 100%
+			showInitialOverlayButtons();           // Show the Fake Consent buttons
+		}
+
+	    // Show the buttons on the initial overlay
+		function showInitialOverlayButtons() {
+			const enterButton = document.getElementById('enterButton');
+			const exitButton = document.getElementById('exitButton');
+		
+			enterButton.style.display = 'block';  // Unhide enter button
+			exitButton.style.display = 'block';   // Unhide exit button
+		
+			// Event handler for Enter (18 or older)
+			enterButton.addEventListener('click', function() {
+				initialOverlay.style.display = 'none'; // Hide overlay
+				event.target.playVideo();              // Play Video
+				document.title = "Get Rick Rolled!";   // Change Website Title
+				enableFullScreen();                    // Start in fullscreen
+		    	});
+		
+			// Event handler for Exit (under 18)
+			exitButton.addEventListener('click', function() {
+				initialOverlay.style.display = 'none'; // Hide overlay
+				event.target.playVideo();              // Play Video
+				document.title = "Get Rick Rolled!";   // Change Website Title
+				enableFullScreen();                    // Start in fullscreen
+			});
 		}
 
 		// On Click Go Into Fullscreen - Blocker
