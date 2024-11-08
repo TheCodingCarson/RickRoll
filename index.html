@@ -85,16 +85,11 @@
 
     <script>
 		// -- Global Variables --
-		var player;        // YouTube Player
-		const playerDiv;   // YouTube Player Div
-		const blocker;     // Blocker Overlay
-		const popup;       // Popup Prompt
-		var ended = false; // Rick Roll Ended
-
-		// Set Global Variables
-		playerDiv = document.querySelector('player');             // Set the youtube player div
-		blocker = document.querySelector('blocker');              // Set the block overlay
-		popup = document.getElementById('fakeEndRickRollPrompt'); // Set the popup prompt
+		var player;                                                     // YouTube Player
+		var ended = false;                                              // Rick Roll Ended
+		const playerDiv = document.querySelector('player');             // YouTube Player Div
+		const blocker = document.querySelector('blocker');              // Blocker Overlay
+		const popup = document.getElementById('fakeEndRickRollPrompt'); // Popup Prompt
 	
 		// Loads the IFrame Player API
 		var tag = document.createElement('script');
