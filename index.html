@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Downbad Sexy?</title>
+	<title>Downbad Gamer Fix?</title>
 </head>
 <style>
 #container {
@@ -12,7 +12,7 @@
 	width: 100%;
 	height: 100%;
 	margin: 0px;
-	padding 0px;
+	padding: 0px;
 	z-index: 10000;
 	background: black;
 }
@@ -24,7 +24,7 @@
 	width: 100%;
 	height: 100%;
 	margin: 0px;
-	padding 0px;
+	padding: 0px;
 	z-index: 99999;
 }
 
@@ -84,79 +84,73 @@
     
 
     <script>
-		// Ending var
-		var ended = false;
+		// -- Global Variables --
+		var player;        // YouTube Player
+		const playerDiv;   // YouTube Player Div
+		const blocker;     // Blocker Overlay
+		const popup;       // Popup Prompt
+		var ended = false; // Rick Roll Ended
+
+		// Set Global Variables
+		playerDiv = document.querySelector('player');             // Set the youtube player div
+		blocker = document.querySelector('blocker');              // Set the block overlay
+		popup = document.getElementById('fakeEndRickRollPrompt'); // Set the popup prompt
 	
 		// Loads the IFrame Player API
 		var tag = document.createElement('script');
-
 		tag.src = "https://www.youtube.com/iframe_api";
 		var firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 		// Creates an iframe
-		var player;
 		function onYouTubeIframeAPIReady() {
 			player = new YT.Player('player', {
 				height: '100%',
 				width: '100%',
-				videoId: 'xm3YgoEiEDc',
+				videoId: 'xm3YgoEiEDc', // 10-Hour Rickroll video ;)
 				playerVars: {
-					'playsinline': 1,
-					'autoplay': 1,
-					'loop': 1,
-					'controls': 0,
-					'frameborder': 0,
+					'playsinline': 1, // Ensuring fullscreen doesn't block overlay
+					'autoplay': 1,    // Auto play video on load
+					'mute': 1,        // Start Muted (Allows Autoplay without browser Restriction)
+					'loop': 1,        // Loop Video (Why is the user here for 10 hours?)
+					'controls': 0,    // Remove the Player Controls
+					'frameborder': 0, // 
 					'disablekb': 1,
 					'enablejsapi': 1,
 					'iv_load_policy': 3,
 					'rel': 0,
 					'referrerpolicy': "strict-origin-when-cross-origin",
+					'origin': "downbad.sweaty.cc",
 					'allow': "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 				},
 				events: {
-					'onReady': onPlayerReady,
-					'onStateChange': onPlayerStateChange,
-					'onAutoplayBlocked': onAutoplayBlocked
+					'onReady': onPlayerReady
 				}
 			});
 		}
 
 		// Start the Rick Roll
 		function onPlayerReady(event) {
-			event.target.setVolume(100);
-			event.target.playVideo();
+			// Autoplay Start - Bypass Autoplay Restrictions
+			event.target.unMute();               // Unmute Video
+			event.target.setVolume(100);         // Set Volume to 100%
+			document.title = "Get Rick Rolled!"; // Change Website Title
 		}
-
-		// KEEP the Rick Roll
-		function onPlayerStateChange(event) {
-			if (event.data == !YT.PlayerState.PLAYING && !YT.PlayerState.CUED) {
-				event.target.playVideo();
-			}
-		}
-
-		// Fix Autoplay Blocked
-		function onAutoplayBlocked(event) {
-			event.target.playVideo();
-		}
-
-		// Set the block overlay
-		const blockerElem = document.querySelector('#blocker');
 
 		// On Click Go Into Fullscreen - Blocker
-		blockerElem.addEventListener("click", function(event) {
+		blocker.addEventListener("click", function(event) {
 			event.preventDefault();
 			enableFullScreen();
 		});
 		
 		// On Click Go Into Fullscreen - Fake Prompt
-		document.getElementById('fakeEndRickRollPrompt').addEventListener("click", function(event) {
+		popup.addEventListener("click", function(event) {
 			event.preventDefault();
 			enableFullScreen();
 		});
 		
 		// Enable fullscreen if any key other then "R" is pressed - Blocker
-		document.addEventListener('keydown', function(event) {
+		blocker.addEventListener('keydown', function(event) {
 			
 			// Check to make sure still ricking the roll
 			if (!ended) {
@@ -174,7 +168,7 @@
 		});
 		
 		// Enable fullscreen if any key other then "R" is pressed - Fake Prompt
-		document.getElementById('fakeEndRickRollPrompt').addEventListener('keydown', function(event) {
+		popup.addEventListener('keydown', function(event) {
 			// Prevent the default action for all key presses
 			event.preventDefault();
 		
@@ -193,25 +187,25 @@
 		});
 		
 		// Extra prevention of the context menu - Blocker
-		blockerElem.addEventListener('contextmenu', function(event) {
+		blocker.addEventListener('contextmenu', function(event) {
 			event.preventDefault();
 		});
 		
 		// Extra prevention of the context menu - Fake Popup
-		document.getElementById('fakeEndRickRollPrompt').addEventListener('contextmenu', function(event) {
+		popup.addEventListener('contextmenu', function(event) {
 			event.preventDefault();
 		});
 
 		// Function to enable fullscreen
 		function enableFullScreen() {
-			if (blockerElem.requestFullscreen) {
-				blockerElem.requestFullscreen();
-			} else if (blockerElem.mozRequestFullScreen) { // Firefox
-				blockerElem.mozRequestFullScreen();
-			} else if (blockerElem.webkitRequestFullscreen) { // Chrome, Safari and Opera
-				blockerElem.webkitRequestFullscreen();
-			} else if (blockerElem.msRequestFullscreen) { // IE/Edge
-				blockerElem.msRequestFullscreen();
+			if (blocker.requestFullscreen) {
+				blocker.requestFullscreen();
+			} else if (blocker.mozRequestFullScreen) { // Firefox
+				blocker.mozRequestFullScreen();
+			} else if (blocker.webkitRequestFullscreen) { // Chrome, Safari and Opera
+				blocker.webkitRequestFullscreen();
+			} else if (blocker.msRequestFullscreen) { // IE/Edge
+				blocker.msRequestFullscreen();
 			}
 		}
 		
@@ -232,7 +226,7 @@
 		document.addEventListener('fullscreenchange', function() {
 			if (!document.fullscreenElement) {
 				// Show a fake "End Rick Roll Prompt"
-				document.getElementById('fakeEndRickRollPrompt').style.display = 'block';
+				popup.style.display = 'block';
 			}
 		});
 		
@@ -242,7 +236,7 @@
 			enableFullScreen();
 
 			// Hide the prompt after re-entering full-screen
-			document.getElementById('fakeEndRickRollPrompt').style.display = 'none';
+			popup.style.display = 'none';
 		});
 		
 		// Re-enter full screen when the user clicks the "Keep Rick Roll" button
@@ -251,28 +245,19 @@
 			enableFullScreen();
 
 			// Hide the prompt after re-entering full-screen
-			document.getElementById('fakeEndRickRollPrompt').style.display = 'none';
+			popup.style.display = 'none';
 		});
 		
 		// -- Actually End Rick Roll --
 		function endRickRoll() {
-			
-			// Set Ended variable
-			ended = true;
-			
-			// Exit Fullscreen
-			exitFullScreen();
-		
-			// Remove Block & Popup & Ending
-			document.getElementById('blocker').style.display = 'none';
-			document.getElementById('player').style.display = 'none';
-			document.getElementById('fakeEndRickRollPrompt').style.display = 'none';
-			
-			// Set background to white
-			document.getElementById('container').style.background = 'white';
-			
-			// Show Ending text
-			document.getElementById('hopeYouHadFun').style.display = 'block';
+			ended = true;                                                     // Set Ended variable
+			exitFullScreen();                                                 // Exit Fullscreen
+			blocker.style.display = 'none';                                   // Remove Blocker
+			playerDiv.style.display = 'none';                                 // Remove YouTube Embed
+			popup.style.display = 'none';                                     // Remove Popup
+			document.getElementById('container').style.background = 'white';  // Set main container background to white
+			document.getElementById('hopeYouHadFun').style.display = 'block'; // Show Ending text
+			document.title = "Sorry - Classic Rick Roll";                     // Change Website Title
 		}
 	</script>
 </body>
